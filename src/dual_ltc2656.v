@@ -25,9 +25,10 @@
        (3) Pulse the CS/LD pin high to cause the previous command to execute
        (4) Send the DAC command to update a channel *without* updating the pin voltage
            (execute steps 3 and 4 a total of 7 times, for channels A thru G)
-       (5) Send the DAC command to updated channel H and update all pin voltages
+       (5) Pulse the CS/LD pin high to cause the previous command to execute
+       (6) Send the DAC command to updated channel H and update all pin voltages
 
-    Note that the command sent to the DAC in step (5) won't be executed until
+    Note that the command sent to the DAC in step (6) won't be executed until
     the next time we start the programming process!
 
 */
@@ -77,54 +78,41 @@ always @(posedge clk) begin
 end
 //=============================================================================
 
-// These will contain the commands we're going to send to the DACs
-wire[23:0] command_list_0[0:8];
-wire[23:0] command_list_1[0:8];
-
-//-----------------------------------------------------------------------------
-// These specify DAC output channels
-//-----------------------------------------------------------------------------
-localparam[3:0] DAC_A = 4'd0;
-localparam[3:0] DAC_B = 4'd1;
-localparam[3:0] DAC_C = 4'd2;
-localparam[3:0] DAC_D = 4'd3;
-localparam[3:0] DAC_E = 4'd4;
-localparam[3:0] DAC_F = 4'd5;
-localparam[3:0] DAC_G = 4'd6;
-localparam[3:0] DAC_H = 4'd7;
-//-----------------------------------------------------------------------------
-
 
 //-----------------------------------------------------------------------------
 // These are 4-bit commands we can send to the DAC
 //-----------------------------------------------------------------------------
 localparam[3:0]  DAC_SET_WITHOUT_OUTPUT = 4'b0000;
 localparam[3:0]  DAC_SET_AND_OUTPUT_ALL = 4'b0010;
-localparam[3:0]  DAC_USE_EXTERNAL_REF   = 4'b0111;
+localparam[3:0]  DAC_USE_EXTERNAL_VREF  = 4'b0111;
 //-----------------------------------------------------------------------------
 
+// This DAC command instructs the DACs to use an external reference voltage
+localparam[23:0] USE_EXTERNAL_VREF = {DAC_USE_EXTERNAL_VREF, 4'b0, 16'b0};
+
+// These will contain the commands we're going to send to the DACs
+wire[23:0] command_list_0[0:7];
+wire[23:0] command_list_1[0:7];
 
 // Commands to send to DAC #0
-assign command_list_0[0] = {DAC_USE_EXTERNAL_REF  , 4'b0 , 16'b0};
-assign command_list_0[1] = {DAC_SET_WITHOUT_OUTPUT, DAC_A, dac_values_0[0*16 +: 16]};
-assign command_list_0[2] = {DAC_SET_WITHOUT_OUTPUT, DAC_B, dac_values_0[1*16 +: 16]};
-assign command_list_0[3] = {DAC_SET_WITHOUT_OUTPUT, DAC_C, dac_values_0[2*16 +: 16]};
-assign command_list_0[4] = {DAC_SET_WITHOUT_OUTPUT, DAC_D, dac_values_0[3*16 +: 16]};
-assign command_list_0[5] = {DAC_SET_WITHOUT_OUTPUT, DAC_E, dac_values_0[4*16 +: 16]};
-assign command_list_0[6] = {DAC_SET_WITHOUT_OUTPUT, DAC_F, dac_values_0[5*16 +: 16]};
-assign command_list_0[7] = {DAC_SET_WITHOUT_OUTPUT, DAC_G, dac_values_0[6*16 +: 16]};
-assign command_list_0[8] = {DAC_SET_AND_OUTPUT_ALL, DAC_H, dac_values_0[7*16 +: 16]};
+assign command_list_0[0] = {DAC_SET_WITHOUT_OUTPUT, 4'd0, dac_values_0[0*16 +: 16]};
+assign command_list_0[1] = {DAC_SET_WITHOUT_OUTPUT, 4'd1, dac_values_0[1*16 +: 16]};
+assign command_list_0[2] = {DAC_SET_WITHOUT_OUTPUT, 4'd2, dac_values_0[2*16 +: 16]};
+assign command_list_0[3] = {DAC_SET_WITHOUT_OUTPUT, 4'd3, dac_values_0[3*16 +: 16]};
+assign command_list_0[4] = {DAC_SET_WITHOUT_OUTPUT, 4'd4, dac_values_0[4*16 +: 16]};
+assign command_list_0[5] = {DAC_SET_WITHOUT_OUTPUT, 4'd5, dac_values_0[5*16 +: 16]};
+assign command_list_0[6] = {DAC_SET_WITHOUT_OUTPUT, 4'd6, dac_values_0[6*16 +: 16]};
+assign command_list_0[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, dac_values_0[7*16 +: 16]};
 
 // Commands to send to DAC #1
-assign command_list_1[0] = {DAC_USE_EXTERNAL_REF  , 4'b0 , 16'b0};
-assign command_list_1[1] = {DAC_SET_WITHOUT_OUTPUT, DAC_A, dac_values_1[0*16 +: 16]};
-assign command_list_1[2] = {DAC_SET_WITHOUT_OUTPUT, DAC_B, dac_values_1[1*16 +: 16]};
-assign command_list_1[3] = {DAC_SET_WITHOUT_OUTPUT, DAC_C, dac_values_1[2*16 +: 16]};
-assign command_list_1[4] = {DAC_SET_WITHOUT_OUTPUT, DAC_D, dac_values_1[3*16 +: 16]};
-assign command_list_1[5] = {DAC_SET_WITHOUT_OUTPUT, DAC_E, dac_values_1[4*16 +: 16]};
-assign command_list_1[6] = {DAC_SET_WITHOUT_OUTPUT, DAC_F, dac_values_1[5*16 +: 16]};
-assign command_list_1[7] = {DAC_SET_WITHOUT_OUTPUT, DAC_G, dac_values_1[6*16 +: 16]};
-assign command_list_1[8] = {DAC_SET_AND_OUTPUT_ALL, DAC_H, dac_values_1[7*16 +: 16]};
+assign command_list_1[0] = {DAC_SET_WITHOUT_OUTPUT, 4'd0, dac_values_1[0*16 +: 16]};
+assign command_list_1[1] = {DAC_SET_WITHOUT_OUTPUT, 4'd1, dac_values_1[1*16 +: 16]};
+assign command_list_1[2] = {DAC_SET_WITHOUT_OUTPUT, 4'd2, dac_values_1[2*16 +: 16]};
+assign command_list_1[3] = {DAC_SET_WITHOUT_OUTPUT, 4'd3, dac_values_1[3*16 +: 16]};
+assign command_list_1[4] = {DAC_SET_WITHOUT_OUTPUT, 4'd4, dac_values_1[4*16 +: 16]};
+assign command_list_1[5] = {DAC_SET_WITHOUT_OUTPUT, 4'd5, dac_values_1[5*16 +: 16]};
+assign command_list_1[6] = {DAC_SET_WITHOUT_OUTPUT, 4'd6, dac_values_1[6*16 +: 16]};
+assign command_list_1[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, dac_values_1[7*16 +: 16]};
 
 
 //=============================================================================
@@ -269,16 +257,18 @@ always @(posedge clk) begin
     end
 
     else case(fsm_state)
-        0: if (start_stb) begin
-                pending[0]  <= command_list_0[0];
-                pending[1]  <= command_list_1[0];
+        0:  if (start_stb) begin
+                pending[0]  <= USE_EXTERNAL_VREF;
+                pending[1]  <= USE_EXTERNAL_VREF;
                 bitbang_stb <= 1;
-                next_idx    <= 1;
+                next_idx    <= 0;
                 fsm_state   <= 1;               
             end
 
+        // The expression "next_idx[3] == 0" is just an efficient
+        // way to determine whether next_idx is less than 8
         1:  if (bitbang_idle) begin
-                if (next_idx < 9) begin
+                if (next_idx[3] == 0) begin
                     pending[0]  <= command_list_0[next_idx];
                     pending[1]  <= command_list_1[next_idx];
                     bitbang_stb <= 1;

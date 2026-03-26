@@ -21,8 +21,8 @@
       },
       "system_interconnect": "",
       "system_ila": "",
-      "dual_ltc2656": "",
-      "example_slave": ""
+      "example_slave": "",
+      "dual_ltc2656": ""
     },
     "interface_ports": {
       "UART": {
@@ -778,76 +778,6 @@
           }
         }
       },
-      "dual_ltc2656": {
-        "vlnv": "xilinx.com:module_ref:dual_ltc2656:1.0",
-        "xci_name": "top_level_dual_ltc2656_0_0",
-        "xci_path": "ip/top_level_dual_ltc2656_0_0/top_level_dual_ltc2656_0_0.xci",
-        "inst_hier_path": "dual_ltc2656",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "dual_ltc2656",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "resetn",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "100000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/source_100mhz/system_clock_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "resetn": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_LOW",
-                "value_src": "constant"
-              }
-            }
-          },
-          "start_stb": {
-            "direction": "I"
-          },
-          "dac_values_0": {
-            "direction": "I",
-            "left": "127",
-            "right": "0"
-          },
-          "dac_values_1": {
-            "direction": "I",
-            "left": "127",
-            "right": "0"
-          },
-          "io_csld": {
-            "direction": "O"
-          },
-          "io_sck": {
-            "direction": "O"
-          },
-          "io_miso0": {
-            "direction": "O"
-          },
-          "io_miso1": {
-            "direction": "O"
-          }
-        }
-      },
       "example_slave": {
         "vlnv": "xilinx.com:module_ref:axil_slave:1.0",
         "xci_name": "top_level_axil_slave_0_0",
@@ -1126,6 +1056,76 @@
             "right": "0"
           }
         }
+      },
+      "dual_ltc2656": {
+        "vlnv": "xilinx.com:module_ref:dual_ltc2656:1.0",
+        "xci_name": "top_level_dual_ltc2656_0_0",
+        "xci_path": "ip/top_level_dual_ltc2656_0_0/top_level_dual_ltc2656_0_0.xci",
+        "inst_hier_path": "dual_ltc2656",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "dual_ltc2656",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/source_100mhz/system_clock_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "start_stb": {
+            "direction": "I"
+          },
+          "dac_values_0": {
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "dac_values_1": {
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "io_csld": {
+            "direction": "O"
+          },
+          "io_sck": {
+            "direction": "O"
+          },
+          "io_miso0": {
+            "direction": "O"
+          },
+          "io_miso1": {
+            "direction": "O"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -1209,8 +1209,8 @@
           "uart_axi_bridge/s_axi_aclk",
           "system_interconnect/aclk",
           "system_ila/clk",
-          "dual_ltc2656/clk",
-          "example_slave/clk"
+          "example_slave/clk",
+          "dual_ltc2656/clk"
         ]
       },
       "source_100mhz_sys_resetn": {
@@ -1218,8 +1218,8 @@
           "source_100mhz/sys_resetn",
           "uart_axi_bridge/s_axi_aresetn",
           "system_interconnect/aresetn",
-          "dual_ltc2656/resetn",
-          "example_slave/resetn"
+          "example_slave/resetn",
+          "dual_ltc2656/resetn"
         ]
       }
     },
