@@ -1,0 +1,49 @@
+{
+   "ActiveEmotionalView":"No Loops",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-554,-570",
+   "DisplayTieOff":"1",
+   "ExpandedHierarchyInLayout":"",
+   "No Loops_ExpandedHierarchyInLayout":"",
+   "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port UART -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD -left
+preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x 0 -y 120 -defaultsOSRD
+preplace port port-id_CPU_RESETN -pg 1 -lvl 0 -x 0 -y 140 -defaultsOSRD
+preplace inst source_100mhz -pg 1 -lvl 1 -x 140 -y 120 -defaultsOSRD -pinDir clk_in left -pinY clk_in 0L -pinDir resetn_in left -pinY resetn_in 20L -pinDir sys_clk right -pinY sys_clk 0R -pinBusDir sys_resetn right -pinBusY sys_resetn 20R
+preplace inst uart_axi_bridge -pg 1 -lvl 2 -x 400 -y 60 -defaultsOSRD -pinDir UART left -pinY UART 0L -pinDir M_AXI right -pinY M_AXI 0R -pinDir s_axi_aclk left -pinY s_axi_aclk 20L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 40L
+preplace inst system_interconnect -pg 1 -lvl 3 -x 680 -y 60 -defaultsOSRD -pinDir S00_AXI left -pinY S00_AXI 0L -pinDir M00_AXI right -pinY M00_AXI 20R -pinDir aclk left -pinY aclk 20L -pinDir aresetn left -pinY aresetn 40L
+preplace inst system_ila -pg 1 -lvl 6 -x 1550 -y 140 -swap {4 0 1 2 3} -defaultsOSRD -pinDir clk left -pinY clk 120L -pinBusDir probe0 left -pinBusY probe0 0L -pinBusDir probe1 left -pinBusY probe1 20L -pinBusDir probe2 left -pinBusY probe2 40L -pinBusDir probe3 left -pinBusY probe3 60L
+preplace inst dual_ltc2656 -pg 1 -lvl 5 -x 1300 -y 80 -swap {4 3 0 1 2 5 6 7 8} -defaultsOSRD -pinDir clk left -pinY clk 120L -pinDir resetn left -pinY resetn 100L -pinDir start_stb left -pinY start_stb 0L -pinBusDir dac_values_0 left -pinBusY dac_values_0 20L -pinBusDir dac_values_1 left -pinBusY dac_values_1 40L -pinDir io_csld right -pinY io_csld 60R -pinDir io_sck right -pinY io_sck 80R -pinDir io_miso0 right -pinY io_miso0 100R -pinDir io_miso1 right -pinY io_miso1 120R
+preplace inst example_slave -pg 1 -lvl 4 -x 990 -y 80 -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir start_stb right -pinY start_stb 0R -pinBusDir dac_values_0 right -pinBusY dac_values_0 20R -pinBusDir dac_values_1 right -pinBusY dac_values_1 40R
+preplace netloc clk_in1_0_1 1 0 1 NJ 120
+preplace netloc dual_ltc2656_io_csld 1 5 1 N 140
+preplace netloc dual_ltc2656_io_miso0 1 5 1 N 180
+preplace netloc dual_ltc2656_io_miso1 1 5 1 N 200
+preplace netloc dual_ltc2656_io_sck 1 5 1 N 160
+preplace netloc example_slave_dac_values_0 1 4 1 N 100
+preplace netloc example_slave_dac_values_1 1 4 1 N 120
+preplace netloc example_slave_start_stb 1 4 1 N 80
+preplace netloc ext_reset_in_0_1 1 0 1 NJ 140
+preplace netloc source_100mhz_sys_clk 1 1 5 280 150 540 160 820 200 1140 260 N
+preplace netloc source_100mhz_sys_resetn 1 1 4 260 170 520 180 840 180 N
+preplace netloc axi_uartlite_UART 1 0 2 NJ 60 NJ
+preplace netloc system_interconnect_M00_AXI 1 3 1 N 80
+preplace netloc uart_axi_bridge_M_AXI 1 2 1 N 60
+levelinfo -pg 1 0 140 400 680 990 1300 1550 1640
+pagesize -pg 1 -db -bbox -sgen -150 0 1640 320
+",
+   "No Loops_ScaleFactor":"0.816498",
+   "No Loops_TopLeft":"-141,-268",
+   "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x -10 -y -200 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 1 -x 120 -y -200 -defaultsOSRD
+preplace netloc clk_in1_0_1 1 0 1 N -200
+levelinfo -pg 1 -10 120 240
+pagesize -pg 1 -db -bbox -sgen -150 -270 240 140
+"
+}
+{
+   "da_axi4_cnt":"1"
+}
