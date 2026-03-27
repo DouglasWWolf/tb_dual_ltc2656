@@ -48,8 +48,8 @@ module dual_ltc2656
 
     output reg io_csld,   // 0 = Chip-select, rising-edge = execute command
     output reg io_sck,    // SPI serial clock
-    output reg io_miso0,  // SPI MISO pin for DAC #0
-    output reg io_miso1   // SPI MISO pin for DAC #1
+    output reg io_mosi0,  // SPI master-out, slave-in pin for DAC #0
+    output reg io_mosi1   // SPI master-out, slave-in pin for DAC #1
 );
 
 
@@ -59,21 +59,21 @@ module dual_ltc2656
 // for logic that may be near the center of the FPGA to make it to the IOB
 // registers on the pins at the edge of the FPGA
 //=============================================================================
-reg spi_csld, spi_sck, spi_miso0, spi_miso1;
+reg spi_csld, spi_sck, spi_mosi0, spi_mosi1;
 //-----------------------------------------------------------------------------
 always @(posedge clk) begin
     if (resetn == 0) begin
         io_csld  <= 0;
         io_sck   <= 0;
-        io_miso0 <= 0;
-        io_miso1 <= 0;
+        io_mosi0 <= 0;
+        io_mosi1 <= 0;
     end
 
     else begin
         io_csld  <= spi_csld;
         io_sck   <= spi_sck;
-        io_miso0 <= spi_miso0;
-        io_miso1 <= spi_miso1;
+        io_mosi0 <= spi_mosi0;
+        io_mosi1 <= spi_mosi1;
     end
 end
 //=============================================================================
@@ -117,7 +117,7 @@ assign command_list_1[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, dac_values_1[7*16 +: 1
 
 //=============================================================================
 // This is an ultra-simple bit-banged SPI where every state of the csld, sck,
-// and miso pins lasts for two clock cycles.
+// and mosi pins lasts for two clock cycles.
 //
 // To use it, load the two 24-bit output values into pending[0] and pending[1]
 // then strobe "bitbang_stb" high for a single cycle.   When "bitbang_idle" 
@@ -151,8 +151,8 @@ always @(posedge clk) begin
     if (resetn == 0) begin
         bbsm_state <= BBSM_IDLE;
         spi_sck    <= 0;
-        spi_miso0  <= 0;
-        spi_miso1  <= 0;
+        spi_mosi0  <= 0;
+        spi_mosi1  <= 0;
     end
 
     else case (bbsm_state)
@@ -173,45 +173,45 @@ always @(posedge clk) begin
         begin
             spi_csld   <= 1;
             spi_sck    <= 0;
-            spi_miso0  <= 0;
-            spi_miso1  <= 0;
+            spi_mosi0  <= 0;
+            spi_mosi1  <= 0;
             bbsm_state <= BBSM_LOOP;
         end
 
-    // Drive the top bit of data to spi_miso while sck is low
+    // Drive the top bit of data to spi_mosi while sck is low
     BBSM_LOOP:
         begin
             spi_sck    <= 0;
-            spi_miso0  <= shifter[0][23];
-            spi_miso1  <= shifter[1][23];
+            spi_mosi0  <= shifter[0][23];
+            spi_mosi1  <= shifter[1][23];
             bbsm_state <= BBSM_STATE3;
         end
 
-    // Keep driving the top bit of data to spi_miso while sck is low
+    // Keep driving the top bit of data to spi_mosi while sck is low
     BBSM_STATE3:
         begin
             spi_sck    <= 0;
-            spi_miso0  <= shifter[0][23];
-            spi_miso1  <= shifter[1][23];
+            spi_mosi0  <= shifter[0][23];
+            spi_mosi1  <= shifter[1][23];
             bbsm_state <= BBSM_STATE4;
         end
 
-    // Drive the top bit of data to spi_miso while sck is high
+    // Drive the top bit of data to spi_mosi while sck is high
     BBSM_STATE4:
         begin
             spi_sck    <= 1;
-            spi_miso0  <= shifter[0][23];
-            spi_miso1  <= shifter[1][23];
+            spi_mosi0  <= shifter[0][23];
+            spi_mosi1  <= shifter[1][23];
             bit_count  <= bit_count + 1;
             bbsm_state <= BBSM_STATE5;
         end
 
-    // Keep driving the top bit of data to spi_miso while sck is high
+    // Keep driving the top bit of data to spi_mosi while sck is high
     BBSM_STATE5:
         begin
             spi_sck    <= 1;
-            spi_miso0  <= shifter[0][23];
-            spi_miso1  <= shifter[1][23];
+            spi_mosi0  <= shifter[0][23];
+            spi_mosi1  <= shifter[1][23];
 
             shifter[0] <= shifter[0] << 1;
             shifter[1] <= shifter[1] << 1;
@@ -221,13 +221,13 @@ always @(posedge clk) begin
                 bbsm_state <= BBSM_LOOP;
         end
 
-    // Force sck and the miso pins low in preperation for the 
+    // Force sck and the mosi pins low in preperation for the 
     // next "bitbang_stb" command
     BBSM_FINAL:
         begin
             spi_sck    <= 0;
-            spi_miso0  <= 0;
-            spi_miso1  <= 0;
+            spi_mosi0  <= 0;
+            spi_mosi1  <= 0;
             bbsm_state <= BBSM_IDLE;
         end
 

@@ -208,7 +208,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>io_miso0</spirit:name>
+        <spirit:name>io_mosi0</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
@@ -220,7 +220,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>io_miso1</spirit:name>
+        <spirit:name>io_mosi1</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>

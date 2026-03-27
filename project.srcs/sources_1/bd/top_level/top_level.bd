@@ -22,7 +22,9 @@
       "system_interconnect": "",
       "system_ila": "",
       "example_slave": "",
-      "dual_ltc2656": ""
+      "sim_ltc2656_0": "",
+      "dual_ltc2656": "",
+      "sim_ltc2656_1": ""
     },
     "interface_ports": {
       "UART": {
@@ -774,7 +776,7 @@
             "value": "NATIVE"
           },
           "C_NUM_OF_PROBES": {
-            "value": "4"
+            "value": "8"
           }
         }
       },
@@ -1057,6 +1059,68 @@
           }
         }
       },
+      "sim_ltc2656_0": {
+        "vlnv": "xilinx.com:module_ref:sim_ltc2656:1.0",
+        "xci_name": "top_level_sim_ltc2656_0_0",
+        "xci_path": "ip/top_level_sim_ltc2656_0_0/top_level_sim_ltc2656_0_0.xci",
+        "inst_hier_path": "sim_ltc2656_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "sim_ltc2656",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/source_100mhz/system_clock_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "spi_csld": {
+            "direction": "I"
+          },
+          "spi_sck": {
+            "direction": "I"
+          },
+          "spi_mosi": {
+            "direction": "I"
+          },
+          "internal_vref": {
+            "direction": "O"
+          },
+          "dac_output": {
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          }
+        }
+      },
       "dual_ltc2656": {
         "vlnv": "xilinx.com:module_ref:dual_ltc2656:1.0",
         "xci_name": "top_level_dual_ltc2656_0_0",
@@ -1119,11 +1183,73 @@
           "io_sck": {
             "direction": "O"
           },
-          "io_miso0": {
+          "io_mosi0": {
             "direction": "O"
           },
-          "io_miso1": {
+          "io_mosi1": {
             "direction": "O"
+          }
+        }
+      },
+      "sim_ltc2656_1": {
+        "vlnv": "xilinx.com:module_ref:sim_ltc2656:1.0",
+        "xci_name": "top_level_sim_ltc2656_0_1",
+        "xci_path": "ip/top_level_sim_ltc2656_0_1/top_level_sim_ltc2656_0_1.xci",
+        "inst_hier_path": "sim_ltc2656_1",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "sim_ltc2656",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/source_100mhz/system_clock_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "spi_csld": {
+            "direction": "I"
+          },
+          "spi_sck": {
+            "direction": "I"
+          },
+          "spi_mosi": {
+            "direction": "I"
+          },
+          "internal_vref": {
+            "direction": "O"
+          },
+          "dac_output": {
+            "direction": "O",
+            "left": "127",
+            "right": "0"
           }
         }
       }
@@ -1158,24 +1284,30 @@
       "dual_ltc2656_io_csld": {
         "ports": [
           "dual_ltc2656/io_csld",
+          "sim_ltc2656_0/spi_csld",
+          "sim_ltc2656_1/spi_csld",
           "system_ila/probe0"
         ]
       },
-      "dual_ltc2656_io_miso0": {
+      "dual_ltc2656_io_mosi0": {
         "ports": [
-          "dual_ltc2656/io_miso0",
+          "dual_ltc2656/io_mosi0",
+          "sim_ltc2656_0/spi_mosi",
           "system_ila/probe2"
         ]
       },
-      "dual_ltc2656_io_miso1": {
+      "dual_ltc2656_io_mosi1": {
         "ports": [
-          "dual_ltc2656/io_miso1",
+          "dual_ltc2656/io_mosi1",
+          "sim_ltc2656_1/spi_mosi",
           "system_ila/probe3"
         ]
       },
       "dual_ltc2656_io_sck": {
         "ports": [
           "dual_ltc2656/io_sck",
+          "sim_ltc2656_0/spi_sck",
+          "sim_ltc2656_1/spi_sck",
           "system_ila/probe1"
         ]
       },
@@ -1203,6 +1335,30 @@
           "source_100mhz/resetn_in"
         ]
       },
+      "sim_ltc2656_0_dac_output": {
+        "ports": [
+          "sim_ltc2656_0/dac_output",
+          "system_ila/probe5"
+        ]
+      },
+      "sim_ltc2656_0_internal_vref": {
+        "ports": [
+          "sim_ltc2656_0/internal_vref",
+          "system_ila/probe4"
+        ]
+      },
+      "sim_ltc2656_1_dac_output": {
+        "ports": [
+          "sim_ltc2656_1/dac_output",
+          "system_ila/probe7"
+        ]
+      },
+      "sim_ltc2656_1_internal_vref": {
+        "ports": [
+          "sim_ltc2656_1/internal_vref",
+          "system_ila/probe6"
+        ]
+      },
       "source_100mhz_sys_clk": {
         "ports": [
           "source_100mhz/sys_clk",
@@ -1210,7 +1366,9 @@
           "system_interconnect/aclk",
           "system_ila/clk",
           "example_slave/clk",
-          "dual_ltc2656/clk"
+          "sim_ltc2656_0/clk",
+          "dual_ltc2656/clk",
+          "sim_ltc2656_1/clk"
         ]
       },
       "source_100mhz_sys_resetn": {
@@ -1219,7 +1377,9 @@
           "uart_axi_bridge/s_axi_aresetn",
           "system_interconnect/aresetn",
           "example_slave/resetn",
-          "dual_ltc2656/resetn"
+          "sim_ltc2656_0/resetn",
+          "dual_ltc2656/resetn",
+          "sim_ltc2656_1/resetn"
         ]
       }
     },
