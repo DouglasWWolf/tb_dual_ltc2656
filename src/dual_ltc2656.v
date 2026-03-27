@@ -49,9 +49,13 @@ module dual_ltc2656
     output reg io_csld,   // 0 = Chip-select, rising-edge = execute command
     output reg io_sck,    // SPI serial clock
     output reg io_mosi0,  // SPI master-out, slave-in pin for DAC #0
-    output reg io_mosi1   // SPI master-out, slave-in pin for DAC #1
+    output reg io_mosi1,   // SPI master-out, slave-in pin for DAC #1
+
+    // When this is high, this engine is idle
+    output idle
 );
 
+genvar i;
 
 //=============================================================================
 // These represent the 4 signals of our SPI bus.
@@ -79,6 +83,25 @@ end
 //=============================================================================
 
 
+//=============================================================================
+// When start_stb strobes high, unpack ports "dac_values_0" and "dac_values_1"
+// into these arrays
+//=============================================================================
+reg[15:0] r_dac_values_0[0:7];
+reg[15:0] r_dac_values_1[0:7];
+//-----------------------------------------------------------------------------
+for (i=0; i<8; i=i+1) begin
+    always @(posedge clk) begin
+        if (start_stb) begin
+            r_dac_values_0[i] <= dac_values_0[i*16 +: 16];
+            r_dac_values_1[i] <= dac_values_1[i*16 +: 16];
+        end
+    end
+end
+//=============================================================================
+
+
+
 //-----------------------------------------------------------------------------
 // These are 4-bit commands we can send to the DAC
 //-----------------------------------------------------------------------------
@@ -94,25 +117,26 @@ localparam[23:0] USE_EXTERNAL_VREF = {DAC_USE_EXTERNAL_VREF, 4'b0, 16'b0};
 wire[23:0] command_list_0[0:7];
 wire[23:0] command_list_1[0:7];
 
+
 // Commands to send to DAC #0
-assign command_list_0[0] = {DAC_SET_WITHOUT_OUTPUT, 4'd0, dac_values_0[0*16 +: 16]};
-assign command_list_0[1] = {DAC_SET_WITHOUT_OUTPUT, 4'd1, dac_values_0[1*16 +: 16]};
-assign command_list_0[2] = {DAC_SET_WITHOUT_OUTPUT, 4'd2, dac_values_0[2*16 +: 16]};
-assign command_list_0[3] = {DAC_SET_WITHOUT_OUTPUT, 4'd3, dac_values_0[3*16 +: 16]};
-assign command_list_0[4] = {DAC_SET_WITHOUT_OUTPUT, 4'd4, dac_values_0[4*16 +: 16]};
-assign command_list_0[5] = {DAC_SET_WITHOUT_OUTPUT, 4'd5, dac_values_0[5*16 +: 16]};
-assign command_list_0[6] = {DAC_SET_WITHOUT_OUTPUT, 4'd6, dac_values_0[6*16 +: 16]};
-assign command_list_0[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, dac_values_0[7*16 +: 16]};
+assign command_list_0[0] = {DAC_SET_WITHOUT_OUTPUT, 4'd0, r_dac_values_0[0]};
+assign command_list_0[1] = {DAC_SET_WITHOUT_OUTPUT, 4'd1, r_dac_values_0[1]};
+assign command_list_0[2] = {DAC_SET_WITHOUT_OUTPUT, 4'd2, r_dac_values_0[2]};
+assign command_list_0[3] = {DAC_SET_WITHOUT_OUTPUT, 4'd3, r_dac_values_0[3]};
+assign command_list_0[4] = {DAC_SET_WITHOUT_OUTPUT, 4'd4, r_dac_values_0[4]};
+assign command_list_0[5] = {DAC_SET_WITHOUT_OUTPUT, 4'd5, r_dac_values_0[5]};
+assign command_list_0[6] = {DAC_SET_WITHOUT_OUTPUT, 4'd6, r_dac_values_0[6]};
+assign command_list_0[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, r_dac_values_0[7]};
 
 // Commands to send to DAC #1
-assign command_list_1[0] = {DAC_SET_WITHOUT_OUTPUT, 4'd0, dac_values_1[0*16 +: 16]};
-assign command_list_1[1] = {DAC_SET_WITHOUT_OUTPUT, 4'd1, dac_values_1[1*16 +: 16]};
-assign command_list_1[2] = {DAC_SET_WITHOUT_OUTPUT, 4'd2, dac_values_1[2*16 +: 16]};
-assign command_list_1[3] = {DAC_SET_WITHOUT_OUTPUT, 4'd3, dac_values_1[3*16 +: 16]};
-assign command_list_1[4] = {DAC_SET_WITHOUT_OUTPUT, 4'd4, dac_values_1[4*16 +: 16]};
-assign command_list_1[5] = {DAC_SET_WITHOUT_OUTPUT, 4'd5, dac_values_1[5*16 +: 16]};
-assign command_list_1[6] = {DAC_SET_WITHOUT_OUTPUT, 4'd6, dac_values_1[6*16 +: 16]};
-assign command_list_1[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, dac_values_1[7*16 +: 16]};
+assign command_list_1[0] = {DAC_SET_WITHOUT_OUTPUT, 4'd0, r_dac_values_1[0]};
+assign command_list_1[1] = {DAC_SET_WITHOUT_OUTPUT, 4'd1, r_dac_values_1[1]};
+assign command_list_1[2] = {DAC_SET_WITHOUT_OUTPUT, 4'd2, r_dac_values_1[2]};
+assign command_list_1[3] = {DAC_SET_WITHOUT_OUTPUT, 4'd3, r_dac_values_1[3]};
+assign command_list_1[4] = {DAC_SET_WITHOUT_OUTPUT, 4'd4, r_dac_values_1[4]};
+assign command_list_1[5] = {DAC_SET_WITHOUT_OUTPUT, 4'd5, r_dac_values_1[5]};
+assign command_list_1[6] = {DAC_SET_WITHOUT_OUTPUT, 4'd6, r_dac_values_1[6]};
+assign command_list_1[7] = {DAC_SET_AND_OUTPUT_ALL, 4'd7, r_dac_values_1[7]};
 
 
 //=============================================================================
@@ -281,6 +305,9 @@ always @(posedge clk) begin
     endcase
 
 end
+
+// We're idle when we're in state 0 and we haven't been told to start
+assign idle = (start_stb == 0) & (fsm_state == 0);
 //=============================================================================
 
 

@@ -7,8 +7,7 @@
       "name": "top_level",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2021.1",
-      "validated": "true"
+      "tool_version": "2021.1"
     },
     "design_tree": {
       "source_100mhz": {
@@ -23,8 +22,8 @@
       "system_ila": "",
       "example_slave": "",
       "sim_ltc2656_0": "",
-      "dual_ltc2656": "",
-      "sim_ltc2656_1": ""
+      "sim_ltc2656_1": "",
+      "dual_ltc2656": ""
     },
     "interface_ports": {
       "UART": {
@@ -36,43 +35,11 @@
     "ports": {
       "CLK100MHZ": {
         "type": "clk",
-        "direction": "I",
-        "parameters": {
-          "CLK_DOMAIN": {
-            "value": "top_level_CLK100MHZ",
-            "value_src": "default"
-          },
-          "FREQ_HZ": {
-            "value": "100000000",
-            "value_src": "default"
-          },
-          "FREQ_TOLERANCE_HZ": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "PHASE": {
-            "value": "0.0",
-            "value_src": "default"
-          }
-        }
+        "direction": "I"
       },
       "CPU_RESETN": {
         "type": "rst",
-        "direction": "I",
-        "parameters": {
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "POLARITY": {
-            "value": "ACTIVE_LOW",
-            "value_src": "default"
-          }
-        }
+        "direction": "I"
       }
     },
     "components": {
@@ -1121,76 +1088,6 @@
           }
         }
       },
-      "dual_ltc2656": {
-        "vlnv": "xilinx.com:module_ref:dual_ltc2656:1.0",
-        "xci_name": "top_level_dual_ltc2656_0_0",
-        "xci_path": "ip/top_level_dual_ltc2656_0_0/top_level_dual_ltc2656_0_0.xci",
-        "inst_hier_path": "dual_ltc2656",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "dual_ltc2656",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "resetn",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "100000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/source_100mhz/system_clock_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "resetn": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_LOW",
-                "value_src": "constant"
-              }
-            }
-          },
-          "start_stb": {
-            "direction": "I"
-          },
-          "dac_values_0": {
-            "direction": "I",
-            "left": "127",
-            "right": "0"
-          },
-          "dac_values_1": {
-            "direction": "I",
-            "left": "127",
-            "right": "0"
-          },
-          "io_csld": {
-            "direction": "O"
-          },
-          "io_sck": {
-            "direction": "O"
-          },
-          "io_mosi0": {
-            "direction": "O"
-          },
-          "io_mosi1": {
-            "direction": "O"
-          }
-        }
-      },
       "sim_ltc2656_1": {
         "vlnv": "xilinx.com:module_ref:sim_ltc2656:1.0",
         "xci_name": "top_level_sim_ltc2656_0_1",
@@ -1250,6 +1147,67 @@
             "direction": "O",
             "left": "127",
             "right": "0"
+          }
+        }
+      },
+      "dual_ltc2656": {
+        "vlnv": "xilinx.com:module_ref:dual_ltc2656:1.0",
+        "xci_name": "top_level_dual_ltc2656_0_0",
+        "xci_path": "ip/top_level_dual_ltc2656_0_0/top_level_dual_ltc2656_0_0.xci",
+        "inst_hier_path": "dual_ltc2656",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "dual_ltc2656",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "start_stb": {
+            "direction": "I"
+          },
+          "dac_values_0": {
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "dac_values_1": {
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "io_csld": {
+            "direction": "O"
+          },
+          "io_sck": {
+            "direction": "O"
+          },
+          "io_mosi0": {
+            "direction": "O"
+          },
+          "io_mosi1": {
+            "direction": "O"
+          },
+          "idle": {
+            "direction": "O"
           }
         }
       }
@@ -1367,8 +1325,8 @@
           "system_ila/clk",
           "example_slave/clk",
           "sim_ltc2656_0/clk",
-          "dual_ltc2656/clk",
-          "sim_ltc2656_1/clk"
+          "sim_ltc2656_1/clk",
+          "dual_ltc2656/clk"
         ]
       },
       "source_100mhz_sys_resetn": {
@@ -1378,8 +1336,8 @@
           "system_interconnect/aresetn",
           "example_slave/resetn",
           "sim_ltc2656_0/resetn",
-          "dual_ltc2656/resetn",
-          "sim_ltc2656_1/resetn"
+          "sim_ltc2656_1/resetn",
+          "dual_ltc2656/resetn"
         ]
       }
     },
