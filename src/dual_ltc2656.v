@@ -46,41 +46,16 @@ module dual_ltc2656
     input[127:0] dac_values_0,
     input[127:0] dac_values_1,
 
-    output reg io_csld,   // 0 = Chip-select, rising-edge = execute command
-    output reg io_sck,    // SPI serial clock
-    output reg io_mosi0,  // SPI master-out, slave-in pin for DAC #0
-    output reg io_mosi1,   // SPI master-out, slave-in pin for DAC #1
+    output     spi_csld,   // 0 = Chip-select, rising-edge = execute command
+    output reg spi_sck,    // SPI serial clock
+    output reg spi_mosi0,  // SPI master-out, slave-in pin for DAC #0
+    output reg spi_mosi1,  // SPI master-out, slave-in pin for DAC #1
 
     // When this is high, this engine is idle
     output idle
 );
 
 genvar i;
-
-//=============================================================================
-// These represent the 4 signals of our SPI bus.
-// We're going to put them through another level of flops to make it easier
-// for logic that may be near the center of the FPGA to make it to the IOB
-// registers on the pins at the edge of the FPGA
-//=============================================================================
-reg spi_csld, spi_sck, spi_mosi0, spi_mosi1;
-//-----------------------------------------------------------------------------
-always @(posedge clk) begin
-    if (resetn == 0) begin
-        io_csld  <= 0;
-        io_sck   <= 0;
-        io_mosi0 <= 0;
-        io_mosi1 <= 0;
-    end
-
-    else begin
-        io_csld  <= spi_csld;
-        io_sck   <= spi_sck;
-        io_mosi0 <= spi_mosi0;
-        io_mosi1 <= spi_mosi1;
-    end
-end
-//=============================================================================
 
 
 //=============================================================================
@@ -155,22 +130,20 @@ reg[23:0] pending[0:1];
 reg       bitbang_stb;
 wire      bitbang_idle;
 //-----------------------------------------------------------------------------
-reg[ 2:0] bbsm_state;
-localparam BBSM_IDLE   = 0;
-localparam BBSM_STATE1 = 1;
+reg[6:0]   bbsm_state;
+localparam BBSM_IDLE   = 1;
 localparam BBSM_LOOP   = 2;
-localparam BBSM_STATE3 = 3;
-localparam BBSM_STATE4 = 4;
-localparam BBSM_STATE5 = 5;
-localparam BBSM_FINAL  = 6;
+localparam BBSM_STATE2 = 4;
+localparam BBSM_STATE3 = 8;
+localparam BBSM_STATE4 = 16;
+localparam BBSM_STATE5 = 32;
+localparam BBSM_FINAL  = 64;
 
 reg[23:0] shifter[0:1];
 reg[ 5:0] bit_count;
 assign    bitbang_idle = (bitbang_stb == 0 && bbsm_state == BBSM_IDLE);
 //-----------------------------------------------------------------------------
 always @(posedge clk) begin
-
-    spi_csld <= 0;
 
     if (resetn == 0) begin
         bbsm_state <= BBSM_IDLE;
@@ -181,24 +154,16 @@ always @(posedge clk) begin
 
     else case (bbsm_state)
 
-    // If we're told to start, raise spi_csld to tell the DACs
-    // "Execute the most recently received command"
+    // If we're told to start, load the shifters.  spi_csld will
+    // go high on the same clock cycle that bitbang_stb goes high
     BBSM_IDLE:
         if (bitbang_stb) begin
-            spi_csld   <=1;
             shifter[0] <= pending[0];
             shifter[1] <= pending[1];
-            bit_count  <= 0;
-            bbsm_state <= BBSM_STATE1;
-        end
-
-    // Keep spi_csld high for a 2nd clock cycle
-    BBSM_STATE1:
-        begin
-            spi_csld   <= 1;
             spi_sck    <= 0;
             spi_mosi0  <= 0;
             spi_mosi1  <= 0;
+            bit_count  <= 0;
             bbsm_state <= BBSM_LOOP;
         end
 
@@ -208,30 +173,30 @@ always @(posedge clk) begin
             spi_sck    <= 0;
             spi_mosi0  <= shifter[0][23];
             spi_mosi1  <= shifter[1][23];
-            bbsm_state <= BBSM_STATE3;
+            bbsm_state <= BBSM_STATE2;
         end
 
     // Keep driving the top bit of data to spi_mosi while sck is low
-    BBSM_STATE3:
+    BBSM_STATE2:
         begin
             spi_sck    <= 0;
             spi_mosi0  <= shifter[0][23];
             spi_mosi1  <= shifter[1][23];
-            bbsm_state <= BBSM_STATE4;
+            bbsm_state <= BBSM_STATE3;
         end
 
     // Drive the top bit of data to spi_mosi while sck is high
-    BBSM_STATE4:
+    BBSM_STATE3:
         begin
             spi_sck    <= 1;
             spi_mosi0  <= shifter[0][23];
             spi_mosi1  <= shifter[1][23];
             bit_count  <= bit_count + 1;
-            bbsm_state <= BBSM_STATE5;
+            bbsm_state <= BBSM_STATE4;
         end
 
     // Keep driving the top bit of data to spi_mosi while sck is high
-    BBSM_STATE5:
+    BBSM_STATE4:
         begin
             spi_sck    <= 1;
             spi_mosi0  <= shifter[0][23];
@@ -240,13 +205,22 @@ always @(posedge clk) begin
             shifter[0] <= shifter[0] << 1;
             shifter[1] <= shifter[1] << 1;
             if (bit_count == 24)
-                bbsm_state <= BBSM_FINAL;
+                bbsm_state <= BBSM_STATE5;
             else 
                 bbsm_state <= BBSM_LOOP;
         end
 
     // Force sck and the mosi pins low in preperation for the 
     // next "bitbang_stb" command
+    BBSM_STATE5:
+        begin
+            spi_sck    <= 0;
+            spi_mosi0  <= 0;
+            spi_mosi1  <= 0;
+            bbsm_state <= BBSM_FINAL;
+        end
+
+    // Keep everything low for a second clock cycle
     BBSM_FINAL:
         begin
             spi_sck    <= 0;
@@ -258,8 +232,8 @@ always @(posedge clk) begin
     endcase
 
 end
-//=============================================================================
 
+//=============================================================================
 
 
 
@@ -310,6 +284,14 @@ end
 assign idle = (start_stb == 0) & (fsm_state == 0);
 //=============================================================================
 
+
+// We want csld to go high on the same clock cycle that the initial
+// "start_stb" goes high.  This ensures that the previously programmed
+// DAC values are driven to the pins on the same clock cycle where
+// "start_stb" occurs
+assign spi_csld = (bbsm_state == BBSM_IDLE && start_stb   == 1)
+                | (bbsm_state == BBSM_IDLE && bitbang_stb == 1)
+                | (bbsm_state == BBSM_LOOP && bit_count   == 0);
 
 
 endmodule

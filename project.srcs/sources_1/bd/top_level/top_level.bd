@@ -776,7 +776,7 @@
             "value": "NATIVE"
           },
           "C_NUM_OF_PROBES": {
-            "value": "9"
+            "value": "10"
           }
         }
       },
@@ -1239,16 +1239,16 @@
             "left": "127",
             "right": "0"
           },
-          "io_csld": {
+          "spi_csld": {
             "direction": "O"
           },
-          "io_sck": {
+          "spi_sck": {
             "direction": "O"
           },
-          "io_mosi0": {
+          "spi_mosi0": {
             "direction": "O"
           },
-          "io_mosi1": {
+          "spi_mosi1": {
             "direction": "O"
           },
           "idle": {
@@ -1292,7 +1292,7 @@
       },
       "dual_ltc2656_io_csld": {
         "ports": [
-          "dual_ltc2656/io_csld",
+          "dual_ltc2656/spi_csld",
           "sim_ltc2656_0/spi_csld",
           "sim_ltc2656_1/spi_csld",
           "system_ila/probe0"
@@ -1300,21 +1300,21 @@
       },
       "dual_ltc2656_io_mosi0": {
         "ports": [
-          "dual_ltc2656/io_mosi0",
+          "dual_ltc2656/spi_mosi0",
           "sim_ltc2656_0/spi_mosi",
           "system_ila/probe2"
         ]
       },
       "dual_ltc2656_io_mosi1": {
         "ports": [
-          "dual_ltc2656/io_mosi1",
+          "dual_ltc2656/spi_mosi1",
           "sim_ltc2656_1/spi_mosi",
           "system_ila/probe3"
         ]
       },
       "dual_ltc2656_io_sck": {
         "ports": [
-          "dual_ltc2656/io_sck",
+          "dual_ltc2656/spi_sck",
           "sim_ltc2656_0/spi_sck",
           "sim_ltc2656_1/spi_sck",
           "system_ila/probe1"
@@ -1335,6 +1335,7 @@
       "example_slave_start_stb": {
         "ports": [
           "example_slave/start_stb",
+          "system_ila/probe9",
           "dual_ltc2656/start_stb"
         ]
       },

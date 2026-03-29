@@ -7,41 +7,41 @@
    "No Loops_ExpandedHierarchyInLayout":"",
    "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port UART -pg 1 -lvl 0 -x 0 -y 260 -defaultsOSRD -left
-preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x 0 -y 320 -defaultsOSRD
-preplace port port-id_CPU_RESETN -pg 1 -lvl 0 -x 0 -y 340 -defaultsOSRD
-preplace inst source_100mhz -pg 1 -lvl 1 -x 140 -y 320 -defaultsOSRD -pinDir clk_in left -pinY clk_in 0L -pinDir resetn_in left -pinY resetn_in 20L -pinDir sys_clk right -pinY sys_clk 0R -pinBusDir sys_resetn right -pinBusY sys_resetn 20R
-preplace inst uart_axi_bridge -pg 1 -lvl 2 -x 400 -y 260 -defaultsOSRD -pinDir UART left -pinY UART 0L -pinDir M_AXI right -pinY M_AXI 0R -pinDir s_axi_aclk left -pinY s_axi_aclk 20L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 40L
-preplace inst system_interconnect -pg 1 -lvl 3 -x 660 -y 260 -defaultsOSRD -pinDir S00_AXI left -pinY S00_AXI 0L -pinDir M00_AXI right -pinY M00_AXI 40R -pinDir aclk left -pinY aclk 20L -pinDir aresetn left -pinY aresetn 40L
-preplace inst system_ila -pg 1 -lvl 7 -x 1960 -y 60 -swap {0 1 2 6 3 4 5 7 8 9} -defaultsOSRD -pinDir clk left -pinY clk 0L -pinBusDir probe0 left -pinBusY probe0 20L -pinBusDir probe1 left -pinBusY probe1 40L -pinBusDir probe2 left -pinBusY probe2 260L -pinBusDir probe3 left -pinBusY probe3 60L -pinBusDir probe4 left -pinBusY probe4 120L -pinBusDir probe5 left -pinBusY probe5 140L -pinBusDir probe6 left -pinBusY probe6 320L -pinBusDir probe7 left -pinBusY probe7 340L -pinBusDir probe8 left -pinBusY probe8 460L
-preplace inst example_slave -pg 1 -lvl 4 -x 970 -y 300 -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir start_stb right -pinY start_stb 0R -pinBusDir dac_values_0 right -pinBusY dac_values_0 20R -pinBusDir dac_values_1 right -pinBusY dac_values_1 40R
-preplace inst sim_ltc2656_0 -pg 1 -lvl 6 -x 1710 -y 180 -defaultsOSRD -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir spi_csld left -pinY spi_csld 40L -pinDir spi_sck left -pinY spi_sck 60L -pinDir spi_mosi left -pinY spi_mosi 80L -pinDir internal_vref right -pinY internal_vref 0R -pinBusDir dac_output right -pinBusY dac_output 20R
-preplace inst sim_ltc2656_1 -pg 1 -lvl 6 -x 1710 -y 380 -defaultsOSRD -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir spi_csld left -pinY spi_csld 40L -pinDir spi_sck left -pinY spi_sck 60L -pinDir spi_mosi left -pinY spi_mosi 80L -pinDir internal_vref right -pinY internal_vref 0R -pinBusDir dac_output right -pinBusY dac_output 20R
-preplace inst dual_ltc2656 -pg 1 -lvl 5 -x 1300 -y 260 -swap {0 1 2 3 4 5 6 8 7 9} -defaultsOSRD -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir start_stb left -pinY start_stb 40L -pinBusDir dac_values_0 left -pinBusY dac_values_0 60L -pinBusDir dac_values_1 left -pinBusY dac_values_1 80L -pinDir io_csld right -pinY io_csld 0R -pinDir io_sck right -pinY io_sck 20R -pinDir io_mosi0 right -pinY io_mosi0 60R -pinDir io_mosi1 right -pinY io_mosi1 40R -pinDir idle right -pinY idle 260R
-preplace netloc clk_in1_0_1 1 0 1 NJ 320
-preplace netloc dual_ltc2656_io_csld 1 5 2 1480 80 NJ
-preplace netloc dual_ltc2656_io_mosi0 1 5 2 1540 320 NJ
-preplace netloc dual_ltc2656_io_mosi1 1 5 2 1520 120 NJ
-preplace netloc dual_ltc2656_io_sck 1 5 2 1500 100 NJ
-preplace netloc example_slave_dac_values_0 1 4 1 N 320
-preplace netloc example_slave_dac_values_1 1 4 1 N 340
-preplace netloc example_slave_start_stb 1 4 1 N 300
-preplace netloc ext_reset_in_0_1 1 0 1 NJ 340
+preplace port UART -pg 1 -lvl 0 -x 0 -y 400 -defaultsOSRD -left
+preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x 0 -y 460 -defaultsOSRD
+preplace port port-id_CPU_RESETN -pg 1 -lvl 0 -x 0 -y 480 -defaultsOSRD
+preplace inst source_100mhz -pg 1 -lvl 1 -x 140 -y 460 -defaultsOSRD -pinDir clk_in left -pinY clk_in 0L -pinDir resetn_in left -pinY resetn_in 20L -pinDir sys_clk right -pinY sys_clk 0R -pinBusDir sys_resetn right -pinBusY sys_resetn 20R
+preplace inst uart_axi_bridge -pg 1 -lvl 2 -x 400 -y 400 -defaultsOSRD -pinDir UART left -pinY UART 0L -pinDir M_AXI right -pinY M_AXI 0R -pinDir s_axi_aclk left -pinY s_axi_aclk 20L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 40L
+preplace inst system_interconnect -pg 1 -lvl 3 -x 660 -y 400 -defaultsOSRD -pinDir S00_AXI left -pinY S00_AXI 0L -pinDir M00_AXI right -pinY M00_AXI 40R -pinDir aclk left -pinY aclk 20L -pinDir aresetn left -pinY aresetn 40L
+preplace inst system_ila -pg 1 -lvl 7 -x 1980 -y 60 -swap {0 1 3 6 2 4 5 8 9 10 7} -defaultsOSRD -pinDir clk left -pinY clk 0L -pinBusDir probe0 left -pinBusY probe0 20L -pinBusDir probe1 left -pinBusY probe1 60L -pinBusDir probe2 left -pinBusY probe2 260L -pinBusDir probe3 left -pinBusY probe3 40L -pinBusDir probe4 left -pinBusY probe4 120L -pinBusDir probe5 left -pinBusY probe5 140L -pinBusDir probe6 left -pinBusY probe6 340L -pinBusDir probe7 left -pinBusY probe7 360L -pinBusDir probe8 left -pinBusY probe8 480L -pinBusDir probe9 left -pinBusY probe9 280L
+preplace inst example_slave -pg 1 -lvl 4 -x 970 -y 440 -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir start_stb right -pinY start_stb 0R -pinBusDir dac_values_0 right -pinBusY dac_values_0 20R -pinBusDir dac_values_1 right -pinBusY dac_values_1 40R
+preplace inst sim_ltc2656_0 -pg 1 -lvl 6 -x 1730 -y 180 -swap {0 1 2 4 3 5 6} -defaultsOSRD -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir spi_csld left -pinY spi_csld 40L -pinDir spi_sck left -pinY spi_sck 80L -pinDir spi_mosi left -pinY spi_mosi 60L -pinDir internal_vref right -pinY internal_vref 0R -pinBusDir dac_output right -pinBusY dac_output 20R
+preplace inst sim_ltc2656_1 -pg 1 -lvl 6 -x 1730 -y 400 -defaultsOSRD -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir spi_csld left -pinY spi_csld 40L -pinDir spi_sck left -pinY spi_sck 60L -pinDir spi_mosi left -pinY spi_mosi 80L -pinDir internal_vref right -pinY internal_vref 0R -pinBusDir dac_output right -pinBusY dac_output 20R
+preplace inst dual_ltc2656 -pg 1 -lvl 5 -x 1320 -y 400 -swap {0 1 2 3 4 5 8 7 6 9} -defaultsOSRD -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir start_stb left -pinY start_stb 40L -pinBusDir dac_values_0 left -pinBusY dac_values_0 60L -pinBusDir dac_values_1 left -pinBusY dac_values_1 80L -pinDir spi_csld right -pinY spi_csld 0R -pinDir spi_sck right -pinY spi_sck 60R -pinDir spi_mosi0 right -pinY spi_mosi0 40R -pinDir spi_mosi1 right -pinY spi_mosi1 20R -pinDir idle right -pinY idle 140R
+preplace netloc clk_in1_0_1 1 0 1 NJ 460
+preplace netloc dual_ltc2656_idle 1 5 2 N 540 NJ
+preplace netloc dual_ltc2656_io_csld 1 5 2 1540 80 N
+preplace netloc dual_ltc2656_io_mosi0 1 5 2 1520 320 NJ
+preplace netloc dual_ltc2656_io_mosi1 1 5 2 1480 100 N
+preplace netloc dual_ltc2656_io_sck 1 5 2 1560 120 N
+preplace netloc example_slave_dac_values_0 1 4 1 N 460
+preplace netloc example_slave_dac_values_1 1 4 1 N 480
+preplace netloc example_slave_start_stb 1 4 3 1160 340 NJ 340 N
+preplace netloc ext_reset_in_0_1 1 0 1 NJ 480
 preplace netloc sim_ltc2656_0_dac_output 1 6 1 N 200
 preplace netloc sim_ltc2656_0_internal_vref 1 6 1 N 180
-preplace netloc sim_ltc2656_1_dac_output 1 6 1 N 400
-preplace netloc sim_ltc2656_1_internal_vref 1 6 1 N 380
-preplace netloc source_100mhz_sys_clk 1 1 6 260 200 520 200 800 200 1120 180 1560 60 NJ
-preplace netloc source_100mhz_sys_resetn 1 1 5 280 350 520 360 820 240 1140 200 1460
-preplace netloc dual_ltc2656_idle 1 5 2 N 520 NJ
-preplace netloc axi_uartlite_UART 1 0 2 NJ 260 NJ
-preplace netloc system_interconnect_M00_AXI 1 3 1 N 300
-preplace netloc uart_axi_bridge_M_AXI 1 2 1 N 260
-levelinfo -pg 1 0 140 400 660 970 1300 1710 1960 2060
-pagesize -pg 1 -db -bbox -sgen -150 0 2060 580
+preplace netloc sim_ltc2656_1_dac_output 1 6 1 N 420
+preplace netloc sim_ltc2656_1_internal_vref 1 6 1 N 400
+preplace netloc source_100mhz_sys_clk 1 1 6 260 340 520 340 800 340 1120 300 1580 60 NJ
+preplace netloc source_100mhz_sys_resetn 1 1 5 280 490 520 500 820 380 1140 320 1500
+preplace netloc axi_uartlite_UART 1 0 2 NJ 400 NJ
+preplace netloc system_interconnect_M00_AXI 1 3 1 N 440
+preplace netloc uart_axi_bridge_M_AXI 1 2 1 N 400
+levelinfo -pg 1 0 140 400 660 970 1320 1730 1980 2080
+pagesize -pg 1 -db -bbox -sgen -150 0 2080 600
 ",
-   "No Loops_ScaleFactor":"0.660763",
-   "No Loops_TopLeft":"-141,-262",
+   "No Loops_ScaleFactor":"0.654815",
+   "No Loops_TopLeft":"-142,-257",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x -10 -y -200 -defaultsOSRD

@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x7AFC30578B2CE9FC",
+      "boundary_crc": "0x94C647AB51DF968B",
       "design_src": "SBD",
       "device": "xc7a100tcsg324-1",
       "name": "bd_9bbd",
@@ -85,6 +85,11 @@
         "direction": "I",
         "left": "0",
         "right": "0"
+      },
+      "probe9": {
+        "direction": "I",
+        "left": "0",
+        "right": "0"
       }
     },
     "components": {
@@ -122,7 +127,7 @@
             "value": "Native"
           },
           "C_NUM_OF_PROBES": {
-            "value": "9"
+            "value": "10"
           },
           "C_PROBE0_MU_CNT": {
             "value": "1"
@@ -205,6 +210,15 @@
           "C_PROBE8_WIDTH": {
             "value": "1"
           },
+          "C_PROBE9_MU_CNT": {
+            "value": "1"
+          },
+          "C_PROBE9_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE9_WIDTH": {
+            "value": "1"
+          },
           "C_TIME_TAG_WIDTH": {
             "value": "32"
           },
@@ -279,6 +293,12 @@
         "ports": [
           "probe8",
           "ila_lib/probe8"
+        ]
+      },
+      "probe9_1": {
+        "ports": [
+          "probe9",
+          "ila_lib/probe9"
         ]
       }
     }
